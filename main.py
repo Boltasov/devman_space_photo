@@ -7,10 +7,17 @@ from urllib.parse import urlparse, unquote
 from dotenv import load_dotenv
 
 
-def download_photo(url, path, filename):
+def download_photo(url, path, filename, api_key):
     Path(path).mkdir(exist_ok=True)
-    response = requests.get(url)
-    response.raise_for_status()
+    if api_key:
+        params = {
+            'api_key': api_key
+        }
+        response = requests.get(url, params)
+        response.raise_for_status()
+    else:
+        response = requests.get(url)
+        response.raise_for_status()
 
     with open(f'{path}/{filename}', 'wb') as file:
         file.write(response.content)
@@ -29,16 +36,17 @@ def fetch_spacex_last_launch():
         download_photo(photo_link, dir, filename)
 
 
-def fetch_nasa_photos():
+# Получает 10 NASA APOD (Astronomy Picture of the Day) images
+def fetch_nasa_APOD_photos():
     load_dotenv()
     nasa_api_key = os.environ['NASA_API_KEY']
-    nasa_url = f'https://api.nasa.gov/planetary/apod?api_key={nasa_api_key}'
+    nasa_APOD_url = 'https://api.nasa.gov/planetary/apod'
     params = {
         "api_key": nasa_api_key,
-        "count": 30,
+        "count": 10,
     }
 
-    response = requests.get(nasa_url, params)
+    response = requests.get(nasa_APOD_url, params)
     response.raise_for_status()
     for photo_data in response.json():
         dir = 'images'
@@ -48,6 +56,31 @@ def fetch_nasa_photos():
         download_photo(photo_link, dir, filename)
 
 
+# Получает 10 NASA EPIC (Earth Polychromatic Imaging Camera) images
+def fetch_nasa_EPIC_photos():
+    dir = 'images'
+    load_dotenv()
+    nasa_api_key = os.environ['NASA_API_KEY']
+    nasa_EPIC_url = 'https://api.nasa.gov/EPIC/api/natural/images'
+    params = {
+        "api_key": nasa_api_key,
+    }
+
+    response = requests.get(nasa_EPIC_url, params)
+    print(type(response.json()))
+    img_list = response.json()[5:]
+    print(len(img_list))
+    for img in img_list:
+        img_name, img_date = img['image'], img['date']
+        img_name = f'{img_name}.png'
+        img_date = img_date.split()[0].split('-')
+        print(f'Name: {img_name}, Date: {img_date}')
+        img_url = f'https://api.nasa.gov/EPIC/archive/natural/{img_date[0]}/{img_date[1]}/{img_date[2]}' \
+                  f'/png/{img_name}'
+
+        download_photo(img_url, dir, img_name, nasa_api_key)
+
+
 def get_extension(url):
     return os.path.splitext(url)[1]
 
@@ -55,4 +88,5 @@ def get_extension(url):
 if __name__ == '__main__':
     #fetch_spacex_last_launch()
     #get_extension('https://apod.nasa.gov/apod/image/2303/_GHR3094-venerelunafirma800.jpg')
-    fetch_nasa_photos()
+    #fetch_nasa_APOD_photos()
+    fetch_nasa_EPIC_photos()
