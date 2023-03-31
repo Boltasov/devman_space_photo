@@ -74,11 +74,9 @@ def fetch_nasa_EPIC_photos():
     for img in img_list:
         img_name, img_date = img['image'], img['date']
         img_name = f'{img_name}.png'
-        img_date = img_date.split()[0].split('-')
-        print(f'Name: {img_name}, Date: {img_date}')
-        img_url = f'https://api.nasa.gov/EPIC/archive/natural/{img_date[0]}/{img_date[1]}/{img_date[2]}' \
-                  f'/png/{img_name}'
-
+        img_date = datetime.datetime.strptime(img_date, '%Y-%m-%d %H:%M:%S')
+        img_url = 'https://api.nasa.gov/EPIC/archive/natural/{0:%Y}/{0:%m}/{0:%d}/png/{1}'.format(img_date, img_name)
+        print(img_url)
         download_photo(img_url, dir, img_name, nasa_api_key)
 
 
