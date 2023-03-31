@@ -40,13 +40,13 @@ def fetch_spacex_last_launch():
 def fetch_nasa_APOD_photos():
     load_dotenv()
     nasa_api_key = os.environ['NASA_API_KEY']
-    nasa_APOD_url = 'https://api.nasa.gov/planetary/apod'
+    nasa_apod_url = 'https://api.nasa.gov/planetary/apod'
     params = {
         "api_key": nasa_api_key,
         "count": 10,
     }
 
-    response = requests.get(nasa_APOD_url, params)
+    response = requests.get(nasa_apod_url, params)
     response.raise_for_status()
     for photo_data in response.json():
         dir = 'images'
@@ -61,12 +61,12 @@ def fetch_nasa_EPIC_photos():
     dir = 'images'
     load_dotenv()
     nasa_api_key = os.environ['NASA_API_KEY']
-    nasa_EPIC_url = 'https://api.nasa.gov/EPIC/api/natural/images'
+    nasa_epic_url = 'https://api.nasa.gov/EPIC/api/natural/images'
     params = {
         "api_key": nasa_api_key,
     }
 
-    response = requests.get(nasa_EPIC_url, params)
+    response = requests.get(nasa_epic_url, params)
     print(type(response.json()))
     img_list = response.json()[5:]
     print(len(img_list))
