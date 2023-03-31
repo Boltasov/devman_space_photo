@@ -3,20 +3,8 @@ import requests
 import datetime
 import os
 
-from pathlib import Path
 from dotenv import load_dotenv
-
-
-def download_photo(url, path, filename, api_key):
-    Path(path).mkdir(exist_ok=True)
-    params = {
-        'api_key': api_key
-    }
-    response = requests.get(url, params)
-    response.raise_for_status()
-
-    with open(f'{path}/{filename}', 'wb') as file:
-        file.write(response.content)
+from download_images import download_nasa_image
 
 
 def get_epic_img_name(img_info):
@@ -33,7 +21,6 @@ def get_epic_img_url(img_info, img_name):
 
 
 def fetch_nasa_epic_photos():
-    dir = 'images'
     load_dotenv()
     nasa_api_key = os.environ['NASA_API_KEY']
     nasa_epic_url = 'https://api.nasa.gov/EPIC/api/natural/images'
@@ -47,7 +34,7 @@ def fetch_nasa_epic_photos():
         img_name = get_epic_img_name(img_info)
         img_url = get_epic_img_url(img_info, img_name)
 
-        download_photo(img_url, dir, img_name, nasa_api_key)
+        download_nasa_image(img_url, img_name)
     return len(img_list)
 
 

@@ -3,17 +3,8 @@ import requests
 import os
 import argparse
 
-from pathlib import Path
 from urllib.parse import urlparse, unquote
-
-
-def download_photo(url, path, filename):
-    Path(path).mkdir(exist_ok=True)
-    response = requests.get(url)
-    response.raise_for_status()
-
-    with open(f'{path}/{filename}', 'wb') as file:
-        file.write(response.content)
+from download_images import download_spacex_image
 
 
 def get_spacex_filename(file_link):
@@ -31,10 +22,9 @@ def get_launch_img_links(launch_id='latest'):
 
 
 def fetch_spacex_images(links_list):
-    folder = 'images'
     for img_link in links_list:
         filename = get_spacex_filename(img_link)
-        download_photo(img_link, folder, filename)
+        download_spacex_image(img_link, filename)
 
 
 if __name__ == '__main__':

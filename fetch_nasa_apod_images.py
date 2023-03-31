@@ -2,21 +2,9 @@ import os.path
 import requests
 import os
 
-from pathlib import Path
 from urllib.parse import urlparse, unquote
 from dotenv import load_dotenv
-
-
-def download_photo(url, path, filename, api_key):
-    Path(path).mkdir(exist_ok=True)
-    params = {
-        'api_key': api_key
-    }
-    response = requests.get(url, params)
-    response.raise_for_status()
-
-    with open(f'{path}/{filename}', 'wb') as file:
-        file.write(response.content)
+from download_images import download_nasa_image
 
 
 def get_apod_img_name(img_link):
@@ -37,10 +25,9 @@ def fetch_nasa_apod_images():
     response = requests.get(nasa_apod_url, params)
     response.raise_for_status()
     for img_data in response.json():
-        dir = 'images'
         img_link = img_data['url']
         filename = get_apod_img_name(img_link)
-        download_photo(img_link, dir, filename, nasa_api_key)
+        download_nasa_image(img_link, filename)
     return len(img_data)
 
 
