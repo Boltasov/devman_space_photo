@@ -19,7 +19,7 @@ def download_photo(url, path, filename, api_key):
         file.write(response.content)
 
 
-def get_nasa_img_name(img_link):
+def get_apod_img_name(img_link):
     photo_name = unquote(os.path.split(urlparse(img_link).path)[1])
     filename = f'nasa_{photo_name}'
     return filename
@@ -39,7 +39,7 @@ def fetch_nasa_apod_images():
     for img_data in response.json():
         dir = 'images'
         img_link = img_data['url']
-        filename = get_nasa_img_name(img_link)
+        filename = get_apod_img_name(img_link)
         download_photo(img_link, dir, filename, nasa_api_key)
     return len(img_data)
 
