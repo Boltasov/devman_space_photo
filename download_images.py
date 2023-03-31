@@ -1,13 +1,15 @@
 import requests
 
 from pathlib import Path
+from os import environ
 
 
-def download_nasa_image(url, filename, api_key):
+def download_nasa_image(url, filename):
     folder = 'images'
     Path(folder).mkdir(exist_ok=True)
+    nasa_api_key = environ['NASA_API_KEY']
     params = {
-        'api_key': api_key
+        'api_key': nasa_api_key
     }
     response = requests.get(url, params)
     response.raise_for_status()
