@@ -3,7 +3,7 @@ import requests
 from pathlib import Path
 
 
-def download_nasa_photo(url, filename, api_key):
+def download_nasa_image(url, filename, api_key):
     folder = 'images'
     Path(folder).mkdir(exist_ok=True)
     params = {
@@ -16,7 +16,7 @@ def download_nasa_photo(url, filename, api_key):
         file.write(response.content)
 
 
-def download_spacex_photo(url, filename):
+def download_spacex_image(url, filename):
     folder = 'images'
     Path(folder).mkdir(exist_ok=True)
     response = requests.get(url)
