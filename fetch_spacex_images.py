@@ -28,7 +28,8 @@ def fetch_spacex_images(links_list):
 
 
 if __name__ == '__main__':
-    # launch_id = '5eb87d47ffd86e000604b38a'
+    ''' Для теста можно задать --id=5eb87d47ffd86e000604b38a '''
+
     parser = argparse.ArgumentParser(
         description='Программа загружает в папку "/images" фотографии запуска spacex,\n'
                     '- при указании id запуска будут загружены фотографии для этого запуска (если есть);\n'
