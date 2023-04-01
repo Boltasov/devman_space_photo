@@ -28,9 +28,8 @@ def fetch_nasa_apod_images():
         img_link = img_data['url']
         filename = get_apod_img_name(img_link)
         download_nasa_image(img_link, filename)
-    return len(img_data)
 
 
 if __name__ == '__main__':
-    img_count = fetch_nasa_apod_images()
-    print(f'Количество изображений: {img_count}')
+    fetch_nasa_apod_images()
+    print(f'Изображения появятся в папке images')

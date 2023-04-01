@@ -35,9 +35,8 @@ def fetch_nasa_epic_photos():
         img_url = get_epic_img_url(img_info, img_name)
 
         download_nasa_image(img_url, img_name)
-    return len(img_list)
 
 
 if __name__ == '__main__':
-    img_count = fetch_nasa_epic_photos()
-    print(f'Количество изображений: {img_count}')
+    fetch_nasa_epic_photos()
+    print(f'Изображения появятся в папке images')
