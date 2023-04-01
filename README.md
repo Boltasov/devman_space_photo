@@ -26,7 +26,7 @@ NASA_API_KEY='Put_here_your_token'
 ```
 #### Requirements to publish to Telegram
 
-To publish images to Telegram you need to have your own Telegram channel and you need a Telegram bot which should be an administrator of the channel.
+To publish images to Telegram you need to have your own Telegram channel, and you need a Telegram bot which should be an administrator of the channel.
 
 * [How to create a bot](https://way23.ru/%D1%80%D0%B5%D0%B3%D0%B8%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%B1%D0%BE%D1%82%D0%B0-%D0%B2-telegram/) manual.
 * [How to create a channel](https://smmplanner.com/blog/otlozhennyj-posting-v-telegram/) manual.
