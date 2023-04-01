@@ -21,7 +21,7 @@ if __name__ == '__main__':
             print(files)
             for file in files:
                 file_path = f'{path}/{file}'
-                #bot.send_photo(chat_id=telegram_channel_id, photo=open(file_path, 'rb'))
+                bot.send_photo(chat_id=telegram_channel_id, photo=open(file_path, 'rb'))
 
                 time_string = os.getenv('POSTING_TIME')
                 if time_string:
@@ -29,5 +29,5 @@ if __name__ == '__main__':
                     sleep_seconds = ((time_params.tm_hour * 60) + time_params.tm_min) * 60 + time_params.tm_sec
                 else:
                     sleep_seconds = 4*60*60
-                print(sleep_seconds)
+
                 time.sleep(sleep_seconds)
