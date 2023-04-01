@@ -9,5 +9,5 @@ if __name__ == '__main__':
     telegram_channel_id = os.environ['TELEGRAM_CHANNEL_ID']
 
     bot = telegram.Bot(token=telegram_bot_token)
-    bot.send_message(chat_id=telegram_channel_id, text="My first words")
+    bot.send_photo(chat_id=telegram_channel_id, photo=open('images/nasa_elnino4_jpl.jpg', 'rb'))
 
