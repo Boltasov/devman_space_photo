@@ -20,7 +20,7 @@ if __name__ == '__main__':
     )
     parser.add_argument('--pause', help='Пауза между публикациями в формате HH:MM:SS.', required=False)
     args = parser.parse_args()
-    pause = args.pause
+    args_pause = args.pause
 
     load_dotenv()
     telegram_bot_token = os.environ['TELEGRAM_BOT_TOKEN']
@@ -36,11 +36,11 @@ if __name__ == '__main__':
                 photo_path = f'{path}/{photo}'
                 bot.send_photo(chat_id=telegram_channel_id, photo=open(photo_path, 'rb'))
 
-                time_string = os.getenv('POSTING_TIME')
-                if pause:
-                    count_seconds(pause)
-                elif time_string:
-                    count_seconds(time_string)
+                env_pause = os.getenv('POSTING_TIME')
+                if args_pause:
+                    sleep_seconds = count_seconds(args_pause)
+                elif env_pause:
+                    sleep_seconds = count_seconds(env_pause)
                 else:
                     sleep_seconds = 4 * 60 * 60
 
