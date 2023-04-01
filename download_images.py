@@ -33,5 +33,9 @@ def download_spacex_image(url, filename):
 
 
 def is_picture(filename):
-    extension = os.path.splitext(filename)[1]
-    return extension in ['.png', '.jpg', '.gif', '.svg']
+    extension = get_extension(filename)
+    return extension in ['.png', '.jpg', '.jpeg', '.gif', '.svg']
+
+
+def get_extension(filename):
+    return os.path.splitext(filename)[1]
