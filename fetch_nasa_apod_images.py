@@ -4,7 +4,7 @@ import os
 
 from urllib.parse import urlparse, unquote
 from dotenv import load_dotenv
-from download_images import download_nasa_image
+from download_images import download_images
 
 
 def get_apod_img_name(img_link):
@@ -23,7 +23,7 @@ def fetch_nasa_apod_images(nasa_params):
     for img_data in response.json():
         img_link = img_data['url']
         filename = get_apod_img_name(img_link)
-        download_nasa_image(img_link, filename, nasa_params)
+        download_images(img_link, filename, nasa_params)
 
 
 if __name__ == '__main__':

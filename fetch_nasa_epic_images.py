@@ -4,7 +4,7 @@ import datetime
 import os
 
 from dotenv import load_dotenv
-from download_images import download_nasa_image
+from download_images import download_images
 
 
 def get_epic_img_name(img_info):
@@ -29,7 +29,7 @@ def fetch_nasa_epic_photos(nasa_params):
         img_name = get_epic_img_name(img_info)
         img_url = get_epic_img_url(img_info, img_name)
 
-        download_nasa_image(img_url, img_name, nasa_params)
+        download_images(img_url, img_name, nasa_params)
 
 
 if __name__ == '__main__':

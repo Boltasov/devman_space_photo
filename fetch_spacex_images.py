@@ -4,7 +4,7 @@ import os
 import argparse
 
 from urllib.parse import urlparse, unquote
-from download_images import download_spacex_image
+from download_images import download_images
 
 
 def get_spacex_filename(file_link):
@@ -24,7 +24,7 @@ def get_launch_img_links(launch_id='latest'):
 def fetch_spacex_images(links_list):
     for img_link in links_list:
         filename = get_spacex_filename(img_link)
-        download_spacex_image(img_link, filename)
+        download_images(img_link, filename)
 
 
 if __name__ == '__main__':
