@@ -5,6 +5,7 @@ import random
 import argparse
 
 from dotenv import load_dotenv
+from pathlib import Path
 
 
 def count_seconds(time_string):
@@ -33,7 +34,7 @@ if __name__ == '__main__':
         for _, _, files in folder:  # Only one iteration. Get files list from generator
             random.shuffle(files)
             for photo in files:
-                photo_path = f'{path}/{photo}'
+                photo_path = Path.cwd() / path / photo
                 bot.send_photo(chat_id=telegram_channel_id, photo=open(photo_path, 'rb'))
 
                 env_pause = os.getenv('POSTING_TIME')

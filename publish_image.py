@@ -4,6 +4,7 @@ import argparse
 import random
 
 from dotenv import load_dotenv
+from pathlib import Path
 
 
 def publish_photo(photo_path, telegram_bot_token, telegram_channel_id):
@@ -12,7 +13,7 @@ def publish_photo(photo_path, telegram_bot_token, telegram_channel_id):
         path = 'images'
         folder = os.walk(path)
         for _, _, files in folder:
-            photo_path = f'{path}/{random.choice(files)}'
+            photo_path = Path.cwd() / path / random.choice(files)
     bot.send_photo(chat_id=telegram_channel_id, photo=open(photo_path, 'rb'))
 
 
