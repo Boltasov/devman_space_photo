@@ -1,7 +1,7 @@
-import os.path
 import requests
 import datetime
 import os
+import argparse
 
 from dotenv import load_dotenv
 from download_images import download_images
@@ -20,11 +20,11 @@ def get_epic_img_url(img_info, img_name):
     return img_url
 
 
-def fetch_nasa_epic_photos(nasa_params):
+def fetch_nasa_epic_photos(nasa_params, photo_count):
     nasa_epic_url = 'https://api.nasa.gov/EPIC/api/natural/images'
 
     response = requests.get(nasa_epic_url, nasa_params)
-    images = response.json()[5:]
+    images = response.json()[:photo_count]
     for img_info in images:
         img_name = get_epic_img_name(img_info)
         img_url = get_epic_img_url(img_info, img_name)
@@ -33,10 +33,17 @@ def fetch_nasa_epic_photos(nasa_params):
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description='Программа загружает в папку "/images" фотографии NASA EPIC.'
+    )
+    parser.add_argument('--count', help='Количество фотографий', required=False, default=5)
+    args = parser.parse_args()
+    photo_count = int(args.count)
+
     load_dotenv()
     nasa_api_key = os.environ['NASA_API_KEY']
     nasa_params = {
         "api_key": nasa_api_key,
     }
-    fetch_nasa_epic_photos(nasa_params)
+    fetch_nasa_epic_photos(nasa_params, photo_count)
     print(f'Изображения появятся в папке images')
