@@ -13,23 +13,24 @@ def get_apod_img_name(img_link):
     return filename
 
 
-def fetch_nasa_apod_images(nasa_api_key):
+def fetch_nasa_apod_images(nasa_params):
     nasa_apod_url = 'https://api.nasa.gov/planetary/apod'
-    params = {
-        "api_key": nasa_api_key,
-        "count": 10,
-    }
+    params = nasa_params
+    params['count'] = 10
 
     response = requests.get(nasa_apod_url, params)
     response.raise_for_status()
     for img_data in response.json():
         img_link = img_data['url']
         filename = get_apod_img_name(img_link)
-        download_nasa_image(img_link, filename)
+        download_nasa_image(img_link, filename, nasa_params)
 
 
 if __name__ == '__main__':
     load_dotenv()
     nasa_api_key = os.environ['NASA_API_KEY']
-    fetch_nasa_apod_images(nasa_api_key)
+    nasa_params = {
+        "api_key": nasa_api_key,
+    }
+    fetch_nasa_apod_images(nasa_params)
     print(f'Изображения появятся в папке images')
