@@ -24,8 +24,8 @@ def fetch_nasa_epic_photos(nasa_params):
     nasa_epic_url = 'https://api.nasa.gov/EPIC/api/natural/images'
 
     response = requests.get(nasa_epic_url, nasa_params)
-    img_list = response.json()[5:]
-    for img_info in img_list:
+    images = response.json()[5:]
+    for img_info in images:
         img_name = get_epic_img_name(img_info)
         img_url = get_epic_img_url(img_info, img_name)
 

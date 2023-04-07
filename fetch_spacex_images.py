@@ -17,12 +17,12 @@ def get_launch_img_links(launch_id='latest'):
     spacex_url = f'https://api.spacexdata.com/v5/launches/{launch_id}'
     response = requests.get(spacex_url)
     response.raise_for_status()
-    links_list = response.json()['links']['flickr']['original']
-    return links_list
+    links = response.json()['links']['flickr']['original']
+    return links
 
 
-def fetch_spacex_images(links_list):
-    for img_link in links_list:
+def fetch_spacex_images(links):
+    for img_link in links:
         filename = get_spacex_filename(img_link)
         download_images(img_link, filename)
 
@@ -39,11 +39,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
     launch_id = args.id
 
-    links_list = get_launch_img_links(launch_id)
+    links = get_launch_img_links(launch_id)
 
-    if not len(links_list):
+    if not len(links):
         print('Нет фотографий с последнего запуска')
     else:
-        fetch_spacex_images(links_list)
-        print(f'Количество новых изображений: {len(links_list)}')
+        fetch_spacex_images(links)
+        print(f'Количество новых изображений: {len(links)}')
     print('Скрипт завершил работу')
