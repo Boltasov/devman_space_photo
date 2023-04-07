@@ -20,9 +20,7 @@ def get_epic_img_url(img_info, img_name):
     return img_url
 
 
-def fetch_nasa_epic_photos():
-    load_dotenv()
-    nasa_api_key = os.environ['NASA_API_KEY']
+def fetch_nasa_epic_photos(nasa_api_key):
     nasa_epic_url = 'https://api.nasa.gov/EPIC/api/natural/images'
     params = {
         "api_key": nasa_api_key,
@@ -38,5 +36,7 @@ def fetch_nasa_epic_photos():
 
 
 if __name__ == '__main__':
-    fetch_nasa_epic_photos()
+    load_dotenv()
+    nasa_api_key = os.environ['NASA_API_KEY']
+    fetch_nasa_epic_photos(nasa_api_key)
     print(f'Изображения появятся в папке images')

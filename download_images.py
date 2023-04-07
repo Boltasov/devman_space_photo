@@ -5,12 +5,10 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 
-def download_nasa_image(url, filename):
+def download_nasa_image(url, filename, nasa_api_key):
     if is_picture(filename):
         folder = 'images'
         Path(folder).mkdir(exist_ok=True)
-        load_dotenv()
-        nasa_api_key = os.environ['NASA_API_KEY']
         params = {
             'api_key': nasa_api_key
         }

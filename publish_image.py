@@ -6,10 +6,7 @@ import random
 from dotenv import load_dotenv
 
 
-def publish_photo(photo_path):
-    load_dotenv()
-    telegram_bot_token = os.environ['TELEGRAM_BOT_TOKEN']
-    telegram_channel_id = os.environ['TELEGRAM_CHANNEL_ID']
+def publish_photo(photo_path, telegram_bot_token, telegram_channel_id):
     bot = telegram.Bot(token=telegram_bot_token)
     if not photo_path:
         path = 'images'
@@ -28,4 +25,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     path = args.path
 
-    publish_photo(path)
+    load_dotenv()
+    telegram_bot_token = os.environ['TELEGRAM_BOT_TOKEN']
+    telegram_channel_id = os.environ['TELEGRAM_CHANNEL_ID']
+    publish_photo(path, telegram_bot_token, telegram_channel_id)
