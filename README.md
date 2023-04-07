@@ -60,12 +60,14 @@ Make sure you've met **Requirements to download NASA images**
 To download NASA APOD images run:
 ```
 python fetch_nasa_apod_images.py
+python fetch_nasa_apod_images.py --count=5
 ```
 To download NASA EPIC images run:
 ```
-python fetch_nasa_apod_images.py
+python fetch_nasa_epic_images.py
+python fetch_nasa_epic_images.py --count=5
 ```
-In both cases images will be downloaded to an 'images' folder.
+You can set up any number of photos you need to download, but real number of downloaded photos may be limited by NASA API. In both cases images will be downloaded to an 'images' folder.
 
 #### Publish images to telegram
 Make sure you've met **Requirements to publish to Telegram.** Also, to publish images you need to have some of them in the "images" folder in the same directory where the scripts located.
