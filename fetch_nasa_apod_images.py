@@ -22,14 +22,16 @@ def fetch_nasa_apod_images(nasa_params, photo_count):
     response = requests.get(nasa_apod_url, params)
     response.raise_for_status()
     for img_data in response.json():
-        img_link = img_data['url']
-        filename = get_apod_img_name(img_link)
-        download_images(img_link, filename, nasa_params)
+        if img_data['media_type'] == 'image':
+            img_link = img_data['url']
+            filename = get_apod_img_name(img_link)
+            download_images(img_link, filename, nasa_params)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-        description='Программа загружает в папку "/images" фотографии NASA APOD'
+        description='Программа загружает в папку "/images" фотографии NASA APOD.\n'
+                    'Если в выдаче NASA попадутся не только изобрвжения, они не будут загружены.'
     )
     parser.add_argument('--count', help='Количество фотографий', required=False, default='10')
     args = parser.parse_args()
