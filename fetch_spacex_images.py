@@ -35,16 +35,13 @@ if __name__ == '__main__':
                     '- при указании id запуска будут загружены фотографии для этого запуска (если есть);\n'
                     '- если не указывать id, будут загружены фотографии c последнего запуска (если есть)\n'
     )
-    parser.add_argument('--id', help='id запуска', required=False)
+    parser.add_argument('--id', help='id запуска', required=False, default='latest')
     args = parser.parse_args()
     launch_id = args.id
 
-    if launch_id:
-        links_list = get_launch_img_links(launch_id)
-    else:
-        links_list = get_launch_img_links()
+    links_list = get_launch_img_links(launch_id)
 
-    if len(links_list) == 0:
+    if not len(links_list):
         print('Нет фотографий с последнего запуска')
     else:
         fetch_spacex_images(links_list)
