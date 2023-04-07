@@ -14,7 +14,8 @@ def publish_photo(photo_path, telegram_bot_token, telegram_channel_id):
         folder = os.walk(path)
         for _, _, files in folder:
             photo_path = Path.cwd() / path / random.choice(files)
-    bot.send_photo(chat_id=telegram_channel_id, photo=open(photo_path, 'rb'))
+    with open(photo_path, 'rb') as photo:
+        bot.send_photo(chat_id=telegram_channel_id, photo=photo)
 
 
 if __name__ == '__main__':

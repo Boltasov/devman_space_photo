@@ -33,9 +33,10 @@ if __name__ == '__main__':
         folder = os.walk(path)
         for _, _, files in folder:  # Only one iteration. Get files list from generator
             random.shuffle(files)
-            for photo in files:
-                photo_path = Path.cwd() / path / photo
-                bot.send_photo(chat_id=telegram_channel_id, photo=open(photo_path, 'rb'))
+            for photo_name in files:
+                photo_path = Path.cwd() / path / photo_name
+                with open(photo_path, 'rb') as photo:
+                    bot.send_photo(chat_id=telegram_channel_id, photo=photo)
 
                 env_pause = os.getenv('POSTING_TIME')
                 if args_pause:
