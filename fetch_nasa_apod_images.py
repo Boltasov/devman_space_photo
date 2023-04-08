@@ -16,10 +16,10 @@ def get_apod_img_name(img_link):
 
 def fetch_nasa_apod_images(nasa_params, photo_count):
     nasa_apod_url = 'https://api.nasa.gov/planetary/apod'
-    params = nasa_params
-    params['count'] = photo_count
+    count_params = nasa_params
+    count_params['count'] = photo_count
 
-    response = requests.get(nasa_apod_url, params)
+    response = requests.get(nasa_apod_url, count_params)
     response.raise_for_status()
     for img_data in response.json():
         if img_data['media_type'] == 'image':
