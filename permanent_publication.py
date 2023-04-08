@@ -3,6 +3,7 @@ import telegram
 import os
 import random
 import argparse
+import click
 
 from dotenv import load_dotenv
 from pathlib import Path
@@ -14,15 +15,10 @@ def count_seconds(time_string):
     return seconds
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(
-        description='Программа публикует в телеграм канале фото с заданной периодичностью.\n'
-                    'Еcли период не указан, фото публикуются каждые 4 часа.'
-    )
-    parser.add_argument('--pause', help='Пауза между публикациями в формате HH:MM:SS.', required=False)
-    args = parser.parse_args()
-    args_pause = args.pause
-
+@click.command()
+@click.option('-p', '--pause', default='04:00:00', type=str, show_default=True,
+              help='Пауза между публикациями в формате HH:MM:SS.')
+def permanent_publication(pause):
     load_dotenv()
     telegram_bot_token = os.environ['TELEGRAM_BOT_TOKEN']
     telegram_channel_id = os.environ['TELEGRAM_CHANNEL_ID']
@@ -31,7 +27,7 @@ if __name__ == '__main__':
     while True:
         path = 'images'
         folder = os.walk(path)
-        for _, _, files in folder:  # Only one iteration. Get files list from generator
+        for _, _, files in folder:
             random.shuffle(files)
             for photo_name in files:
                 photo_path = Path.cwd() / path / photo_name
@@ -39,11 +35,11 @@ if __name__ == '__main__':
                     bot.send_photo(chat_id=telegram_channel_id, photo=photo)
 
                 env_pause = os.getenv('POSTING_TIME')
-                if args_pause:
-                    sleep_seconds = count_seconds(args_pause)
-                elif env_pause:
-                    sleep_seconds = count_seconds(env_pause)
+                if env_pause:
+                    time.sleep(count_seconds(env_pause))
                 else:
-                    sleep_seconds = 4 * 60 * 60
+                    time.sleep(count_seconds(pause))
 
-                time.sleep(sleep_seconds)
+
+if __name__ == '__main__':
+    permanent_publication()

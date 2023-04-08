@@ -36,9 +36,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='Программа загружает в папку "/images" фотографии NASA EPIC.'
     )
-    parser.add_argument('--count', help='Количество фотографий', required=False, default=5)
+    parser.add_argument('--count', help='Количество фотографий', required=False, default=5, type=int)
     args = parser.parse_args()
-    photo_count = int(args.count)
+    photo_count = args.count
 
     load_dotenv()
     nasa_api_key = os.environ['NASA_API_KEY']
