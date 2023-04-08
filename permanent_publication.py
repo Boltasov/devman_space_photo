@@ -1,12 +1,11 @@
 import time
-import telegram
 import os
 import random
-import argparse
 import click
 
 from dotenv import load_dotenv
 from pathlib import Path
+from publish_image import publish_photo
 
 
 def count_seconds(time_string):
@@ -18,12 +17,7 @@ def count_seconds(time_string):
 @click.command()
 @click.option('-p', '--pause', default='04:00:00', type=str, show_default=True,
               help='Пауза между публикациями в формате HH:MM:SS.')
-def permanent_publication(pause):
-    load_dotenv()
-    telegram_bot_token = os.environ['TELEGRAM_BOT_TOKEN']
-    telegram_channel_id = os.environ['TELEGRAM_CHANNEL_ID']
-    bot = telegram.Bot(token=telegram_bot_token)
-
+def permanent_publication(pause, telegram_bot_token, telegram_channel_id):
     while True:
         path = 'images'
         folder = os.walk(path)
@@ -31,8 +25,7 @@ def permanent_publication(pause):
             random.shuffle(files)
             for photo_name in files:
                 photo_path = Path.cwd() / path / photo_name
-                with open(photo_path, 'rb') as photo:
-                    bot.send_photo(chat_id=telegram_channel_id, photo=photo)
+                publish_photo(photo_path, telegram_bot_token, telegram_channel_id)
 
                 env_pause = os.getenv('POSTING_TIME')
                 if env_pause:
@@ -42,4 +35,7 @@ def permanent_publication(pause):
 
 
 if __name__ == '__main__':
-    permanent_publication()
+    load_dotenv()
+    telegram_bot_token = os.environ['TELEGRAM_BOT_TOKEN']
+    telegram_channel_id = os.environ['TELEGRAM_CHANNEL_ID']
+    permanent_publication(telegram_bot_token=telegram_bot_token, telegram_channel_id=telegram_channel_id)
