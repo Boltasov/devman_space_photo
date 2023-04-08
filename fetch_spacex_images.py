@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
     links = get_launch_img_links(launch_id)
 
-    if not len(links):
+    if not links:
         print('Нет фотографий с последнего запуска')
     else:
         fetch_spacex_images(links)
