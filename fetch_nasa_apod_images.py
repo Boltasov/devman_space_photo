@@ -31,7 +31,7 @@ def fetch_nasa_apod_images(nasa_params, photo_count):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='Программа загружает в папку "/images" фотографии NASA APOD.\n'
-                    'Если в выдаче NASA попадутся не только изобрвжения, они не будут загружены.'
+                    'Если в выдаче NASA попадутся не только изображения, они не будут загружены.'
     )
     parser.add_argument('--count', help='Количество фотографий', required=False, default='10')
     args = parser.parse_args()
