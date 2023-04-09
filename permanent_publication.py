@@ -2,6 +2,7 @@ import time
 import os
 import random
 import click
+import telegram.error
 
 from dotenv import load_dotenv
 from pathlib import Path
@@ -14,10 +15,9 @@ def count_seconds(time_string):
     return seconds
 
 
-@click.command()
-@click.option('-p', '--pause', default='04:00:00', type=str, show_default=True,
-              help='Пауза между публикациями в формате HH:MM:SS.')
 def permanent_publication(pause, telegram_bot_token, telegram_channel_id):
+    sleep_seconds = count_seconds(pause)
+
     while True:
         path = 'images'
         folder = os.walk(path)
@@ -25,17 +25,26 @@ def permanent_publication(pause, telegram_bot_token, telegram_channel_id):
             random.shuffle(files)
             for photo_name in files:
                 photo_path = Path.cwd() / path / photo_name
-                publish_photo(photo_path, telegram_bot_token, telegram_channel_id)
+                while True:
+                    try:
+                        publish_photo(photo_path, telegram_bot_token, telegram_channel_id)
+                        break
+                    except telegram.error.NetworkError:
+                        print('Пытаюсь восстановить связь...')
+                        time.sleep(5)
 
-                env_pause = os.getenv('POSTING_TIME')
-                if env_pause:
-                    time.sleep(count_seconds(env_pause))
-                else:
-                    time.sleep(count_seconds(pause))
+                time.sleep(sleep_seconds)
 
 
-if __name__ == '__main__':
+@click.command()
+@click.option('-p', '--pause', envvar='POSTING_TIME', default='04:00:00', type=str, show_default=True,
+              help='Пауза между публикациями в формате HH:MM:SS.')
+def main(pause):
     load_dotenv()
     telegram_bot_token = os.environ['TELEGRAM_BOT_TOKEN']
     telegram_channel_id = os.environ['TELEGRAM_CHANNEL_ID']
-    permanent_publication(telegram_bot_token=telegram_bot_token, telegram_channel_id=telegram_channel_id)
+    permanent_publication(pause=pause, telegram_bot_token=telegram_bot_token, telegram_channel_id=telegram_channel_id)
+
+
+if __name__ == '__main__':
+    main()
