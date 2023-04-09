@@ -4,7 +4,7 @@ import os
 from pathlib import Path
 
 
-def download_images(url, filename, params=''):
+def download_images(url, filename, params=None):
     if is_picture(filename):
         folder = 'images'
         Path(folder).mkdir(exist_ok=True)
