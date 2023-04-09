@@ -85,10 +85,17 @@ To start a permanent publication run:
 ```
 python permanent_publication.py
 ```
-By default, it will publish random image from the "images" folder every 4 hours. If you want to set up publication period, you should put it to the `.env` file in `HH:MM:SS` format. For example, to set up publication to publish an image every 1 hour and 30 minutes this should be in the `.env` file:
+By default, it will publish random image from the "images" folder every 4 hours.
+If you set up the 'PAUSE' environment variable, the script will use it. To set up variables use this commands:
+```commandline
+// Windows
+set PAUSE=00:30:00
+
+// Linux or MacOS
+export PAUSE=00:30:00
 ```
-POSTING_TIME='01:30:00'
-```
+Then just run the script.
+
 Also, you can set up publication pause when run the script like this:
 ```
 python permanent_publication.py --pause=00:01:30

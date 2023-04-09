@@ -37,7 +37,7 @@ def permanent_publication(pause, telegram_bot_token, telegram_channel_id):
 
 
 @click.command()
-@click.option('-p', '--pause', envvar='POSTING_TIME', default='04:00:00', type=str, show_default=True,
+@click.option('-p', '--pause', envvar='PAUSE', default='04:00:00', type=str, show_default=True,
               help='Пауза между публикациями в формате HH:MM:SS.')
 def main(pause):
     load_dotenv()
