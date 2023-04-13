@@ -17,7 +17,7 @@ def get_apod_img_name(img_link):
 def fetch_nasa_apod_images(nasa_params, photo_count):
     nasa_apod_url = 'https://api.nasa.gov/planetary/apod'
     # Необходим отдельный count_params, так как в первом запросе к NASA API нужно ограничить число возвращаемых записей
-    count_params = nasa_params
+    count_params = nasa_params.copy()
     count_params['count'] = photo_count
 
     response = requests.get(nasa_apod_url, count_params)
