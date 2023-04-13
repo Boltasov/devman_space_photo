@@ -25,9 +25,10 @@ if __name__ == '__main__':
     load_dotenv()
     telegram_bot_token = os.environ['TELEGRAM_BOT_TOKEN']
     telegram_channel_id = os.environ['TELEGRAM_CHANNEL_ID']
+
     if not path:
-        path = 'images'
-        folder = os.walk(path)
+        folder_path = 'images'
+        folder = os.walk(folder_path)
         for _, _, files in folder:
-            photo_path = Path.cwd() / path / random.choice(files)
+            path = os.path.join(folder_path, random.choice(files))
     publish_photo(path, telegram_bot_token, telegram_channel_id)
