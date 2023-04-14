@@ -87,14 +87,15 @@ python permanent_publication.py
 ```
 By default, it will publish random image from the "images" folder every 4 hours.
 If you set up the 'PAUSE' environment variable, the script will use it. To set up variables use this commands:
-```commandline
+```
 // Windows
 set PAUSE=00:30:00
+python permanent_publication.py --pause=%PAUSE%
 
 // Linux or MacOS
 export PAUSE=00:30:00
+python permanent_publication.py --pause=$PAUSE
 ```
-Then just run the script.
 
 Also, you can set up publication pause when run the script like this:
 ```

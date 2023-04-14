@@ -1,7 +1,7 @@
 import time
 import os
 import random
-import click
+import argparse
 import telegram.error
 
 from dotenv import load_dotenv
@@ -36,15 +36,20 @@ def permanent_publication(pause, telegram_bot_token, telegram_channel_id):
                 time.sleep(sleep_seconds)
 
 
-@click.command()
-@click.option('-p', '--pause', envvar='PAUSE', default='04:00:00', type=str, show_default=True,
-              help='Пауза между публикациями в формате HH:MM:SS.')
-def main(pause):
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+                description='Программа публикует фотографии из папки images. По одной фотографии за раз '
+                'в заданный промежуток времени.\n'
+                'По умолчанию публикация происходит раз в 4 часа.\n'
+                'Перед запуском убедитесь, что в папке images есть хотя бы одна фотография.'
+    )
+    parser.add_argument('--pause', help='Время между публикациями фотографий в формате HH:MM:SS',
+                        required=False, default='04:00:00', type=str)
+    args = parser.parse_args()
+    pause = args.pause
+
     load_dotenv()
     telegram_bot_token = os.environ['TELEGRAM_BOT_TOKEN']
     telegram_channel_id = os.environ['TELEGRAM_CHANNEL_ID']
-    permanent_publication(pause=pause, telegram_bot_token=telegram_bot_token, telegram_channel_id=telegram_channel_id)
 
-
-if __name__ == '__main__':
-    main()
+    permanent_publication(pause, telegram_bot_token, telegram_channel_id)
